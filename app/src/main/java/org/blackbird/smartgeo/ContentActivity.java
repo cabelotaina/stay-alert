@@ -43,14 +43,23 @@ public class ContentActivity extends Activity {
 
     private String _captured_picture_url;
 
-    Double edit_longitude;
-    Double edit_latitude;
+    private Double edit_longitude;
+    private Double edit_latitude;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_content);
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            type = extras.getInt("EXTRA");
+            TextView title = (TextView) findViewById(R.id.title);
+            title.setText(getText(type));
+        }
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -114,7 +123,13 @@ public class ContentActivity extends Activity {
             content.picture(_captured_picture_url);
         }
         content.description(description);
-        content.label("problem");
+
+        if(type==R.string.text_problem_intro){
+            content.label("problem");
+        }else {
+            content.label("issue");
+        }
+
         content.lat_lon(edit_latitude, edit_longitude);
         content.user_id(1);
         content.tag_list(_tags);
@@ -159,7 +174,8 @@ public class ContentActivity extends Activity {
 
         //outfile where we are thinking of saving it
         Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        //TODO: insert the locale by latlon
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US);
 
         String newPicFile = "stay_alert"+ df.format(date) + ".png";
 
@@ -180,36 +196,26 @@ public class ContentActivity extends Activity {
 
         ImageView edit_picture = (ImageView) findViewById(R.id.picture);
         if (requestCode == REQUEST_TAKE_PHOTO) {
-            if (resultCode == RESULT_OK) {
-                Uri uri = null;
-
-                if (data != null) {
-                    uri = data.getData();
-                }
-                if (uri == null && _captured_picture_url != null) {
-                    uri = Uri.fromFile(new File(_captured_picture_url));
-                }
+            if (resultCode == RESULT_OK && _captured_picture_url != null) {
                 File file = new File(_captured_picture_url);
                 if (!file.exists()) {
                     if (file.mkdir()){
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
                                 Uri.parse("file://" + Environment.getExternalStorageDirectory())));
                     }
-
                 }
-
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    edit_picture.setImageBitmap(bitmap);
+                        Uri uri = (data!= null) ? data.getData() : Uri.fromFile(new File(_captured_picture_url));
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                        edit_picture.setImageBitmap(bitmap);
+
+
                 } catch (IOException ex) {
                     Log.e(STAYALERT, "exception: " + ex.getMessage());
                     Log.e(STAYALERT, "exception: " + ex.toString());
                     ex.printStackTrace();
                 }
             }
-
-
-
 
         }
 

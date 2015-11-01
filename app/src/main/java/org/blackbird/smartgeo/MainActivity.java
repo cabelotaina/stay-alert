@@ -21,8 +21,8 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int RESULT_OK= 1;
-    private static final String TAG = "SMARTGEO";
+    //private static final int RESULT_OK= 1;
+    private static final String STAYALERT = "STAYALERT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +53,15 @@ public class MainActivity extends Activity {
     }
 
     public void startProblemActivity(View view){
-        String problem = getString(R.string.text_problem_intro);
-
         Intent i = new Intent(MainActivity.this, ContentActivity.class);
+        i.putExtra("EXTRA", R.string.text_problem_intro);
         startActivity(i);
     }
 
 
     public void startIssueActivity(View view){
-
-        String issue = getString(R.string.text_issue_intro);
-
         Intent i = new Intent(MainActivity.this, ContentActivity.class);
+        i.putExtra("EXTRA",R.string.text_issue_intro);
         startActivity(i);
     }
 
@@ -72,7 +69,6 @@ public class MainActivity extends Activity {
     public void loadCamera(View view){
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File image = getOutputPhotoFile();
         Uri image_path = Uri.fromFile(getOutputPhotoFile());
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_path);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -85,7 +81,7 @@ public class MainActivity extends Activity {
                 Environment.DIRECTORY_PICTURES), getPackageName());
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
-                Log.e(TAG, "Failed to create storage directory.");
+                Log.e(STAYALERT, "Failed to create storage directory.");
                 return null;
             }
         }
@@ -97,6 +93,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         ImageView picture_one = (ImageView) findViewById(R.id.picture);
+        //TODO: See this problem!
        // if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");

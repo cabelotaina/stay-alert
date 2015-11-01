@@ -11,9 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class Content {
-    private static final String TAG = "SMARTGEO";
-
-    private static final String STAYALERT = "STAYALERT";
 
     private String _description, _label, _tag_list, _picture;
     private int _id;
