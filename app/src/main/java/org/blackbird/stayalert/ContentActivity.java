@@ -1,4 +1,4 @@
-package org.blackbird.smartgeo;
+package org.blackbird.stayalert;
 
 import android.app.Activity;
 import android.content.Context;
@@ -51,13 +51,13 @@ public class ContentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_content);
+        setContentView(org.blackbird.stayalert.R.layout.activity_content);
 
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             type = extras.getInt("EXTRA");
-            TextView title = (TextView) findViewById(R.id.title);
+            TextView title = (TextView) findViewById(org.blackbird.stayalert.R.id.title);
             title.setText(getText(type));
         }
 
@@ -74,11 +74,11 @@ public class ContentActivity extends Activity {
             addresses = geocoder.getFromLocation(edit_latitude, edit_longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
             if (addresses == null) {
-                Log.w(STAYALERT, getString(R.string.gps_false));
+                Log.w(STAYALERT, getString(org.blackbird.stayalert.R.string.gps_false));
             } else {
                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                 String city = addresses.get(0).getLocality();
-                TextView edit_address = (TextView) findViewById(R.id.edit_address);
+                TextView edit_address = (TextView) findViewById(org.blackbird.stayalert.R.id.edit_address);
                 edit_address.setText(address + ", " + city);
             }
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class ContentActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_content, menu);
+        getMenuInflater().inflate(org.blackbird.stayalert.R.menu.menu_content, menu);
         return true;
     }
 
@@ -103,7 +103,7 @@ public class ContentActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == org.blackbird.stayalert.R.id.action_settings) {
             return true;
         }
 
@@ -112,10 +112,10 @@ public class ContentActivity extends Activity {
 
     public void sendMessage(View view) {
 
-        EditText edit_description = (EditText) findViewById(R.id.edit_description);
+        EditText edit_description = (EditText) findViewById(org.blackbird.stayalert.R.id.edit_description);
         String description = edit_description.getText().toString();
 
-        EditText edit_tags = (EditText) findViewById(R.id.edit_tags);
+        EditText edit_tags = (EditText) findViewById(org.blackbird.stayalert.R.id.edit_tags);
         String _tags = edit_tags.getText().toString();
 
         Content content = new Content();
@@ -124,7 +124,7 @@ public class ContentActivity extends Activity {
         }
         content.description(description);
 
-        if(type==R.string.text_problem_intro){
+        if(type== org.blackbird.stayalert.R.string.text_problem_intro){
             content.label("problem");
         }else {
             content.label("issue");
@@ -194,7 +194,7 @@ public class ContentActivity extends Activity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        ImageView edit_picture = (ImageView) findViewById(R.id.picture);
+        ImageView edit_picture = (ImageView) findViewById(org.blackbird.stayalert.R.id.picture);
         if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK && _captured_picture_url != null) {
                 File file = new File(_captured_picture_url);

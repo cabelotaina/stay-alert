@@ -1,4 +1,4 @@
-package org.blackbird.smartgeo;
+package org.blackbird.stayalert;
 
 public class Settings {
 

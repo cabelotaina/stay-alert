@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="org.blackbird.smartgeo.ContentActivity">
+    tools:context="org.blackbird.stay_alert.ContentActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

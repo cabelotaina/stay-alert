@@ -25,6 +25,7 @@
 
     <string name="label_address">Address: </string>
     <string name="desc_image_problem">This is the picture of the problem</string>
+    <string name="content_list_message">List of Content</string>
 
 
     <!-- errors -->

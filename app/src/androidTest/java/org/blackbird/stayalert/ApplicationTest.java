@@ -1,4 +1,4 @@
-package org.blackbird.smartgeo;
+package org.blackbird.stayalert;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
