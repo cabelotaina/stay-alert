@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
@@ -35,47 +34,43 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class ProblemActivity extends Activity {
+public class ContentActivity extends Activity {
 
-    private final int PICK_IMAGE_REQUEST = 100;
+    private static final int PICK_IMAGE_REQUEST = 100;
     private static final int REQUEST_TAKE_PHOTO = 200;
 
     private static final String STAYALERT = "STAYALERT";
 
-    private TextView address_aux;
-    private ImageView picture_one;
-    Double latitude, longitude;
-    Uri picture_uri;
+    private String _captured_picture_url;
 
-
-    String newSelectedImageURL;
-    String capturedImageURL;
+    Double edit_longitude;
+    Double edit_latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_problem);
+        setContentView(R.layout.activity_content);
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        edit_longitude = location.getLongitude();
+        edit_latitude = location.getLatitude();
 
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            addresses = geocoder.getFromLocation(edit_latitude, edit_longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
             if (addresses == null) {
-                Log.w(STAYALERT, "GPS is false because address is null");
+                Log.w(STAYALERT, getString(R.string.gps_false));
             } else {
                 String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
                 String city = addresses.get(0).getLocality();
-                address_aux = (TextView) findViewById(R.id.address);
-                address_aux.setText(address + ", " + city);
+                TextView edit_address = (TextView) findViewById(R.id.edit_address);
+                edit_address.setText(address + ", " + city);
             }
         } catch (Exception e) {
             Log.e(STAYALERT, "exception: " + e.getMessage());
@@ -87,7 +82,7 @@ public class ProblemActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_content, menu);
         return true;
     }
 
@@ -108,21 +103,24 @@ public class ProblemActivity extends Activity {
 
     public void sendMessage(View view) {
 
-        EditText editDescription = (EditText) findViewById(R.id.edit_description);
-        String description = editDescription.getText().toString();
-        //Toast.makeText(this, "path: " + capturedImageURL, Toast.LENGTH_LONG).show();
+        EditText edit_description = (EditText) findViewById(R.id.edit_description);
+        String description = edit_description.getText().toString();
+
+        EditText edit_tags = (EditText) findViewById(R.id.edit_tags);
+        String _tags = edit_tags.getText().toString();
+
         Content content = new Content();
-        if (capturedImageURL != null){
-            content.picture(capturedImageURL);
+        if (_captured_picture_url != null){
+            content.picture(_captured_picture_url);
         }
         content.description(description);
         content.label("problem");
-        content.lat_lon(latitude, longitude);
+        content.lat_lon(edit_latitude, edit_longitude);
         content.user_id(1);
-        content.tag_list("teste");
+        content.tag_list(_tags);
 
 
-        makeRequest(Settings.url()+"contents.json", content.json() );
+        makeRequest(Settings.url() + "contents.json", content.json());
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
     }
@@ -155,25 +153,10 @@ public class ProblemActivity extends Activity {
         t.start();
     }
 
-
-    public void addImage(View view) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        //Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-
     public void loadCamera(View view) {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (intent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(intent, REQUEST_TAKE_PHOTO);
-//        }
-
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
-        newSelectedImageURL=null;
         //outfile where we are thinking of saving it
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -181,28 +164,13 @@ public class ProblemActivity extends Activity {
         String newPicFile = "stay_alert"+ df.format(date) + ".png";
 
 
-        String outPath =Environment.getExternalStorageDirectory() + "/myFolderName/"+ newPicFile ;
-        File outFile = new File(outPath);
+        String out_path =Environment.getExternalStorageDirectory() + "/stay_alert/"+ newPicFile ;
+        File out_file = new File(out_path);
 
-        capturedImageURL=outFile.toString();
-        Uri outuri = Uri.fromFile(outFile);
-        cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, outuri);
+        _captured_picture_url = out_file.toString();
+        Uri out_uri = Uri.fromFile(out_file);
+        cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, out_uri);
         startActivityForResult(cameraIntent, REQUEST_TAKE_PHOTO);
-    }
-
-    private File getOutputPhotoFile() {
-        File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), getPackageName());
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                Log.e(STAYALERT, "Failed to create storage directory.");
-                Toast.makeText(this, "Failed to create storage directory." +
-                        null, Toast.LENGTH_LONG).show();
-                return null;
-            }
-        }
-        String timeStamp = new SimpleDateFormat("yyyMMdd_HHmmss", Locale.UK).format(new Date());
-        return new File(directory.getPath() + File.separator + "IMG_"
-                + timeStamp + ".jpg");
     }
 
     @Override
@@ -210,7 +178,7 @@ public class ProblemActivity extends Activity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        picture_one = (ImageView) findViewById(R.id.picture_one);
+        ImageView edit_picture = (ImageView) findViewById(R.id.picture);
         if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
                 Uri uri = null;
@@ -218,10 +186,10 @@ public class ProblemActivity extends Activity {
                 if (data != null) {
                     uri = data.getData();
                 }
-                if (uri == null && capturedImageURL != null) {
-                    uri = Uri.fromFile(new File(capturedImageURL));
+                if (uri == null && _captured_picture_url != null) {
+                    uri = Uri.fromFile(new File(_captured_picture_url));
                 }
-                File file = new File(capturedImageURL);
+                File file = new File(_captured_picture_url);
                 if (!file.exists()) {
                     if (file.mkdir()){
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
@@ -232,7 +200,7 @@ public class ProblemActivity extends Activity {
 
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    picture_one.setImageBitmap(bitmap);
+                    edit_picture.setImageBitmap(bitmap);
                 } catch (IOException ex) {
                     Log.e(STAYALERT, "exception: " + ex.getMessage());
                     Log.e(STAYALERT, "exception: " + ex.toString());
@@ -246,10 +214,10 @@ public class ProblemActivity extends Activity {
         }
 
         if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
-            picture_uri = data.getData();
+            Uri edit_picture_uri = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), picture_uri);
-                picture_one.setImageBitmap(bitmap);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), edit_picture_uri);
+                edit_picture.setImageBitmap(bitmap);
             } catch (IOException ex) {
                 Log.e(STAYALERT, "exception: " + ex.getMessage());
                 Log.e(STAYALERT, "exception: " + ex.toString());
@@ -257,9 +225,4 @@ public class ProblemActivity extends Activity {
             }
         }
     }
-
-
-
-
-
 }

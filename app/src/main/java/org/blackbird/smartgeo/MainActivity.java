@@ -53,9 +53,21 @@ public class MainActivity extends Activity {
     }
 
     public void startProblemActivity(View view){
-        Intent i = new Intent(MainActivity.this, ProblemActivity.class);
+        String problem = getString(R.string.text_problem_intro);
+
+        Intent i = new Intent(MainActivity.this, ContentActivity.class);
         startActivity(i);
     }
+
+
+    public void startIssueActivity(View view){
+
+        String issue = getString(R.string.text_issue_intro);
+
+        Intent i = new Intent(MainActivity.this, ContentActivity.class);
+        startActivity(i);
+    }
+
 
     public void loadCamera(View view){
 
@@ -84,7 +96,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        ImageView picture_one = (ImageView) findViewById(R.id.picture_one);
+        ImageView picture_one = (ImageView) findViewById(R.id.picture);
        // if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");

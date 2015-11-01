@@ -1,13 +1,14 @@
 <resources>
-    <string name="app_name">Smartgeo</string>
+    <string name="app_name">Stay Alert</string>
     <string name="hello_world">Hello world!</string>
 
-    <string name="text_intro">Add new problem</string>
+    <string name="text_problem_intro">Add new Problem</string>
+    <string name="text_issue_intro">Add new Issue</string>
 
     <string name="add_problem">Add Problem</string>
     <string name="add_issue">Add Issue</string>
 
-    <string name="edit_title">Title ...</string>
+    <string name="edit_tag">Tags separated by comma ...</string>
     <string name="edit_description">Description ...</string>
 
     <string name="action_settings">Settings</string>
@@ -24,4 +25,10 @@
 
     <string name="label_address">Address: </string>
     <string name="desc_image_problem">This is the picture of the problem</string>
+
+
+    <!-- errors -->
+
+<string name="gps_false">GPS is false because address is null</string>
+
 </resources>

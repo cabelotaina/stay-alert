@@ -3,7 +3,6 @@ package org.blackbird.smartgeo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,12 +38,6 @@ public class Content {
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
         byte[] b = baos.toByteArray();
         _picture = "data:image/png;base64," + Base64.encodeToString(b, Base64.NO_WRAP);
-        Log.e(STAYALERT, "picture: " + _picture);
-    }
-
-    public void latLon(Double latitude, Double longitude){
-        _latitude = latitude;
-        _longitude = longitude;
     }
 
     public void user_id(int user_id){

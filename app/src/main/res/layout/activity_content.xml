@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="org.blackbird.smartgeo.ProblemActivity">
+    tools:context="org.blackbird.smartgeo.ContentActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,9 +16,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/text_intro"
+            android:text="@string/text_problem_intro"
             android:textSize="10pt" />
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_camera"
+            android:paddingLeft="22dp"
+            android:drawablePadding="9dp"
+            android:onClick="loadCamera" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,18 +35,18 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/edit_title"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/edit_title" />
-
-    <EditText
         android:id="@+id/edit_description"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="top"
         android:hint="@string/edit_description"
         android:lines="7" />
+
+    <EditText
+        android:id="@+id/edit_tags"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/edit_tag" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -52,32 +58,9 @@
             android:text="@string/label_address"/>
 
         <TextView
-            android:id="@+id/address"
+            android:id="@+id/edit_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_add_image"
-            android:drawablePadding="10dp"
-            android:onClick="addImage"
-            android:text="@string/button_images" />
-
-        <Button
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_camera"
-            android:drawablePadding="10dp"
-            android:onClick="loadCamera"
-            android:text="@string/button_camera_b"/>
     </LinearLayout>
 
     <LinearLayout
@@ -86,21 +69,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/picture_one"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-
-            android:contentDescription="@string/desc_image_problem"/>
-
-        <ImageView
-            android:id="@+id/picture_two"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-
-            android:contentDescription="@string/desc_image_problem"/>
-
-        <ImageView
-            android:id="@+id/picture_three"
+            android:id="@+id/picture"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
 
