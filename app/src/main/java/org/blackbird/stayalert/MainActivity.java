@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,24 +35,20 @@ import java.util.Locale;
 
 
 
+
 public class MainActivity extends ListActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     //private static final int RESULT_OK= 1;
     private static final String STAYALERT = "STAYALERT";
 
-    private static String ID = "id";
+    private static String LABEL = "label";
     private static String DESCRIPTION = "description";
-    private static String TAGS = "tags";
-    private static String PICTURE = "picture";
-    private static String LATITUDE = "latitude";
-    private static String LONGITUDE = "longitude";
-    private static String USER_ID = "user_id";
     private static String URL = "url";
 
-    ProgressDialog pDialog;
-    ArrayList<Content> contents_list;
-    ArrayList<HashMap<String, String>> content_array;
-    HashMap<String, String> content_hash_map;
+    private ProgressDialog pDialog;
+    private ArrayList<Content> contents_list;
+    private ArrayList<HashMap<String, String>> content_array;
+    private HashMap<String, String> content_hash_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,32 +61,34 @@ public class MainActivity extends ListActivity {
 
         ListView list_view = getListView();
 
-        // I dissable this because i dont need this functionality
-        // Listview on item click listener
-        /*list_view.setOnItemClickListener(new OnItemClickListener() {
+        list_view.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // getting values from selected ListItem
-                String description = ((TextView) view.findViewById(R.id.description))
+                //TODO: make url hidden of user
+                String url = ((TextView) view.findViewById(R.id.url))
                         .getText().toString();
 
                 // Starting single contact activity
                 Intent in = new Intent(getApplicationContext(),
                         SingleContentActivity.class);
-                in.putExtra(DESCRIPTION, );
-                in.putExtra(TAG_EMAIL, cost);
-                in.putExtra(TAG_PHONE_MOBILE, description);
+                in.putExtra("EXTRA_URL", url);
                 startActivity(in);
 
             }
-        });*/
+        });
 
         // Calling async task to get json
         new GetContents().execute();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        //new GetContents().execute();
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -152,11 +153,11 @@ public class MainActivity extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         ImageView picture_one = (ImageView) findViewById(org.blackbird.stayalert.R.id.picture);
         //TODO: it works?
-       // if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            picture_one.setImageBitmap(imageBitmap);
-      //  }
+        // if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        Bundle extras = data.getExtras();
+        Bitmap imageBitmap = (Bitmap) extras.get("data");
+        picture_one.setImageBitmap(imageBitmap);
+        //  }
 
     }
 
@@ -173,7 +174,6 @@ public class MainActivity extends ListActivity {
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
-
         }
 
         @Override
@@ -196,24 +196,11 @@ public class MainActivity extends ListActivity {
                         JSONObject content_from = contents.getJSONObject(i);
                         Content content_to = new Content();
 
-                        content_to.id(content_from.getInt(ID));
+
                         content_to.description(content_from.getString(DESCRIPTION));
-                        //TODO: create for statement to get all tags from content insert it on Array
+                        content_to.label(content_from.getString(LABEL));
 
-                        JSONArray tags = content_from.getJSONArray(TAGS);
-/*
-                        for (int j = 0; j < tags.length(); j++ ) {
-                            JSONObject tag = tags.getJSONObject(i);
-                            content_to.tagList(new Tag(tag.getInt("id"),
-                                    tag.getString("name"),
-                                    tag.getInt("taggings_count")));
-                        }*/
-                        //content_to.picture(content_from.getString(PICTURE));
-//                        content_to.latLon(content_from.getDouble(LATITUDE),
-//                                content_from.getDouble(LONGITUDE));
-//                        content_to.user_id(content_from.getInt(USER_ID));
-                        //                       content_to.url(content_from.getString(URL));
-
+                        content_to.url(content_from.getString(URL));
 
                         // adding content to contents list
                         contents_list.add(content_to);
@@ -223,7 +210,8 @@ public class MainActivity extends ListActivity {
 
                         // adding each child node to HashMap key => value
                         content_hash_map.put(DESCRIPTION, content_to.description());
-
+                        content_hash_map.put(LABEL, content_to.label());
+                        content_hash_map.put(URL, content_to.url());
                         // adding content_hash_map to content_hash_map list
 
                         content_array.add(content_hash_map);
@@ -232,6 +220,7 @@ public class MainActivity extends ListActivity {
                     e.printStackTrace();
                 }
             } else {
+                //TODO: how insert a Toast after the if fail?
                 Log.e("ServerCaller", "Couldn't get any data from the url");
             }
 
@@ -247,13 +236,12 @@ public class MainActivity extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
+            // TODO: insert field type with small font size
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, content_array,
-                    R.layout.list_item, new String[] { DESCRIPTION }, new int[] { R.id.description });
+                    R.layout.list_item, new String[] { DESCRIPTION, LABEL, URL }, new int[] { R.id.description, R.id.label, R.id.url });
 
             setListAdapter(adapter);
-
-            //Log.e("VIXEEEEEE", content_array.toString());
         }
 
     }

@@ -24,6 +24,7 @@ public class Content {
     }
     public void description(String description) { _description = description;}
     public void label(String label) {_label = label;}
+    public String label() {return _label;}
     public void tag_list(String tag_list){ _tag_list = tag_list;}
     public void tag_list(Tag tag){
         array_tag_objects.add(tag);
@@ -44,7 +45,9 @@ public class Content {
     public void url(String url){
         _url = url;
     }
-
+    public String url(){
+        return _url;
+    }
 
     public String description(){
         return _description;

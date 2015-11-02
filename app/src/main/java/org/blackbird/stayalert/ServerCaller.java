@@ -1,5 +1,7 @@
 package org.blackbird.stayalert;
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -24,8 +26,7 @@ public class ServerCaller {
         return this.makeServiceCall(url, method, null);
     }
 
-    public String makeServiceCall(String url, int method,
-                                  List<NameValuePair> params) {
+    public String makeServiceCall(String url, int method, List<NameValuePair> params) {
         try {
             // http client
             DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -43,25 +44,15 @@ public class ServerCaller {
                 httpResponse = httpClient.execute(httpPost);
 
             } else if (method == GET) {
-                // TODO: See if this stay or leave the code
-                // don't need params for call get actually
-                // appending params to url
-                /*if (params != null) {
-                    String paramString = URLEncodedUtils
-                            .format(params, "utf-8");
-                    url += "?" + paramString;
-                }*/
                 HttpGet httpGet = new HttpGet(url);
 
                 httpResponse = httpClient.execute(httpGet);
-
+                Log.e("teste", httpResponse.toString());
             }
             if (httpResponse != null) {
                 httpEntity = httpResponse.getEntity();
                 response = EntityUtils.toString(httpEntity);
             }
-
-
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -70,10 +61,7 @@ public class ServerCaller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return response;
-
     }
-
 
 }

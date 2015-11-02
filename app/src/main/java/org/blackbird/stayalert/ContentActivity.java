@@ -57,7 +57,7 @@ public class ContentActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             type = extras.getInt("EXTRA");
-            TextView title = (TextView) findViewById(org.blackbird.stayalert.R.id.title);
+            TextView title = (TextView) findViewById(R.id.title);
             title.setText(getText(type));
         }
 
@@ -134,7 +134,7 @@ public class ContentActivity extends Activity {
         content.user_id(1);
         content.tag_list(_tags);
 
-
+        //TODO: change for ServerCaller.java
         makeRequest(Settings.url() + "contents.json", content.json());
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
@@ -174,7 +174,7 @@ public class ContentActivity extends Activity {
 
         //outfile where we are thinking of saving it
         Date date = new Date();
-        //TODO: insert the locale by latlon
+        //TODO: insert the locale by latlon (https://developers.google.com/maps/documentation/timezone/intro)
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.US);
 
         String newPicFile = "stay_alert"+ df.format(date) + ".png";

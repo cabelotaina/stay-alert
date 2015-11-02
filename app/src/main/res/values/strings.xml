@@ -15,12 +15,10 @@
 
     <string name="button_send">Send</string>
     <string name="button_images">Gallery</string>
-    <string name="button_camera_b">Camera</string>
-    <string name="button_camera_a">Camera</string>
+    <string name="button_camera">Camera</string>
 
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_issue">Issues</string>
-    <string name="title_activity_problem">Problems</string>
+    <string name="title_activity_main">Cockpit</string>
+    <string name="title_activity_add_content">Add+...</string>
     <string name="title_activity_display_message">Your Post</string>
 
     <string name="label_address">Address: </string>
@@ -30,6 +28,7 @@
 
     <!-- errors -->
 
-<string name="gps_false">GPS is false because address is null</string>
+    <string name="gps_false">GPS is false because address is null</string>
+    <string name="title_activity_single_content">Content selected:</string>
 
 </resources>
