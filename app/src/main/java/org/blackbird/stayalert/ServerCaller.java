@@ -1,7 +1,5 @@
 package org.blackbird.stayalert;
 
-import android.util.Log;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -21,7 +19,7 @@ public class ServerCaller {
     static String response = null;
     public final static int GET = 1;
     public final static int POST = 2;
-
+    public final static int GET_C = 1;
     public String makeServiceCall(String url, int method) {
         return this.makeServiceCall(url, method, null);
     }
@@ -45,13 +43,12 @@ public class ServerCaller {
 
             } else if (method == GET) {
                 HttpGet httpGet = new HttpGet(url);
-
                 httpResponse = httpClient.execute(httpGet);
-                Log.e("teste", httpResponse.toString());
             }
             if (httpResponse != null) {
                 httpEntity = httpResponse.getEntity();
                 response = EntityUtils.toString(httpEntity);
+
             }
 
         } catch (UnsupportedEncodingException e) {

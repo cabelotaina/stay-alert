@@ -83,8 +83,6 @@ public class MainActivity extends ListActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //list_view.setAdapter(null);
-        //new GetContents().execute();
         //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
 
     }
