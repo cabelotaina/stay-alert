@@ -31,4 +31,6 @@
     <string name="gps_false">GPS is false because address is null</string>
     <string name="title_activity_single_content">Content selected:</string>
 
+    <string name="action_reload">Reload</string>
+
 </resources>

@@ -1,6 +1,5 @@
 package org.blackbird.stayalert;
 
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,6 +20,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,9 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-
-
-
 public class MainActivity extends ListActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     //private static final int RESULT_OK= 1;
@@ -45,10 +42,10 @@ public class MainActivity extends ListActivity {
     private static String DESCRIPTION = "description";
     private static String URL = "url";
 
-    private ProgressDialog pDialog;
     private ArrayList<Content> contents_list;
     private ArrayList<HashMap<String, String>> content_array;
     private HashMap<String, String> content_hash_map;
+    private ListView list_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +56,7 @@ public class MainActivity extends ListActivity {
         contents_list = new ArrayList<Content>();
         content_array = new ArrayList<HashMap<String, String>>();
 
-        ListView list_view = getListView();
+        list_view = getListView();
 
         list_view.setOnItemClickListener(new OnItemClickListener() {
 
@@ -86,7 +83,9 @@ public class MainActivity extends ListActivity {
     @Override
     public void onResume() {
         super.onResume();
+        //list_view.setAdapter(null);
         //new GetContents().execute();
+        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
 
     }
     @Override
@@ -106,6 +105,11 @@ public class MainActivity extends ListActivity {
         //noinspection SimplifiableIfStatement
         if (id == org.blackbird.stayalert.R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.action_reload){
+            //reload activity for load new contents
+            finish();
+            startActivity(getIntent());
         }
 
         return super.onOptionsItemSelected(item);
@@ -161,13 +165,21 @@ public class MainActivity extends ListActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, ContentActivity.class));
+        Toast.makeText(this, "Back Pressed", Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * Async task class to get json by making HTTP call
      * */
     private class GetContents extends AsyncTask<Void, Void, Void> {
-
+        private ProgressDialog pDialog;
         @Override
         protected void onPreExecute() {
+
+
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(MainActivity.this);
@@ -182,7 +194,7 @@ public class MainActivity extends ListActivity {
             ServerCaller called_from_get = new ServerCaller();
 
             // Making a request to url and getting response
-            String jsonStr = called_from_get.makeServiceCall(Settings.url()+"/contents.json", ServerCaller.GET);
+            String jsonStr = called_from_get.makeServiceCall(Settings.url()+"contents.json", ServerCaller.GET);
 
             Log.d("Response: ", "> " + jsonStr);
 
@@ -236,7 +248,7 @@ public class MainActivity extends ListActivity {
             /**
              * Updating parsed JSON data into ListView
              * */
-            // TODO: insert field type with small font size
+            // TODO: insert field picture with thumb from paperclip
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, content_array,
                     R.layout.list_item, new String[] { DESCRIPTION, LABEL, URL }, new int[] { R.id.description, R.id.label, R.id.url });

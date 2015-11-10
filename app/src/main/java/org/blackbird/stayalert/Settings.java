@@ -3,6 +3,6 @@ package org.blackbird.stayalert;
 public class Settings {
 
     public static String url(){
-        return "http://10.0.0.2:3000/";
+        return "https://powerful-depths-6256.herokuapp.com/";
     }
 }

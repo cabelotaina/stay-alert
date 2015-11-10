@@ -47,4 +47,8 @@ public class SingleContentActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }
