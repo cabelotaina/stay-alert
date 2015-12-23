@@ -38,6 +38,19 @@
     <string name="action_reload">Recarregar</string>
     <string name="dont_have_gps"> Você não possui GPS!</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="title_activity_login">Iniciar sessão</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Iniciar sessão ou registrar</string>
+    <string name="action_sign_in_short">Iniciar sessão</string>
+    <string name="error_invalid_email">O email é inválido</string>
+    <string name="error_invalid_password">Esta senha é muito pequena</string>
+    <string name="error_incorrect_password">A senha esta incorreta</string>
+    <string name="error_field_required">Este campo é necessário</string>
+    <string name="permission_rationale">"É necessário permitir acesso aos contatos para auto completar email."
+    </string>
 
 
 </resources>
