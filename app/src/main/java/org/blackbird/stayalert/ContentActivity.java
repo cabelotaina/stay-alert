@@ -64,6 +64,7 @@ public class ContentActivity extends Activity {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            //TODO This is not good :(
             edit_longitude = location.getLongitude();
             Geocoder geocoder;
             List<Address> addresses;
@@ -114,6 +115,8 @@ public class ContentActivity extends Activity {
     }
 
     public void sendMessage(View view) {
+        EditText edit_title = (EditText) findViewById(R.id.edit_title);
+        String title = edit_title.getText().toString();
 
         EditText edit_description = (EditText) findViewById(org.blackbird.stayalert.R.id.edit_description);
         String description = edit_description.getText().toString();

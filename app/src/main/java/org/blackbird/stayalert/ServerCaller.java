@@ -19,7 +19,7 @@ public class ServerCaller {
     static String response = null;
     public final static int GET = 1;
     public final static int POST = 2;
-    public final static int GET_C = 1;
+    //public final static int GET_C = 1;
     public String makeServiceCall(String url, int method) {
         return this.makeServiceCall(url, method, null);
     }

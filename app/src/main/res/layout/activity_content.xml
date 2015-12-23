@@ -66,15 +66,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
+        <!-- TODO image is necessary? -->
         <ImageView
             android:id="@+id/picture"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-
             android:contentDescription="@string/desc_image_problem"/>
-
-        <!--android:src="@drawable/ic_camera" TODO placehouder of imageview-->
 
     </LinearLayout>
 

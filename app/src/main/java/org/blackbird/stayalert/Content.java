@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Content {
 
-    private String _description, _label, _picture;
+    private String _title, _description, _label, _picture;
     private int _id;
     private Double _latitude, _longitude;
     private int _user_id;
@@ -20,6 +20,8 @@ public class Content {
     public void id(int id) {
         _id = id;
     }
+
+    public void title(String title ){ _title = title;}
 
     public void description(String description) {
         _description = description;
@@ -57,6 +59,8 @@ public class Content {
     public String url() {
         return _url;
     }
+
+    public String title(){ return _title;}
 
     public String description() {
         return _description;
