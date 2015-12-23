@@ -22,6 +22,12 @@
     <string name="title_activity_display_message">Your Post</string>
 
     <string name="label_address">Address: </string>
+    <string name="label_description">Description: </string>
+    <string name="label_label">Label: </string>
+    <string name="label_latlon">Latitude e Longitude: </string>
+    <string name="label_tags">Tags: </string>
+
+
     <string name="desc_image_problem">This is the picture of the problem</string>
     <string name="content_list_message">List of Content</string>
 
@@ -32,5 +38,8 @@
     <string name="title_activity_single_content">Content selected:</string>
 
     <string name="action_reload">Reload</string>
+    <string name="dont_have_gps"> dont have GPS</string>
+    <string name="title_activity_maps">Map</string>
+
 
 </resources>

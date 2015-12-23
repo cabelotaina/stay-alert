@@ -16,8 +16,7 @@ public class SingleContentActivity extends Activity {
 
 
     private String url;
-    private String DESCRIPTION = "description";
-    private String LABEL = "label";
+
     private Content content_to = new Content();
     //TODO: add a map (http://developer.android.com/intl/pt-br/training/maps/index.html)
     @Override
@@ -70,15 +69,16 @@ public class SingleContentActivity extends Activity {
 
         protected Content doInBackground(String... arg0) {
             ServerCaller called_from_get = new ServerCaller();
-            //TODO: finish the single content activity, see main activity how example
             String jsonStr = called_from_get.makeServiceCall(url,ServerCaller.GET);
-            Log.d("Response: ", "> " + jsonStr);
             if (jsonStr != null) {
                 try {
                     JSONObject content = new JSONObject(jsonStr);
-                    content_to.description(content.getString(DESCRIPTION));
-                    //content_to.label(content_from.getString(LABEL));
-                    //Log.d("Exception", content_to.description());
+                    content_to.description(content.getString(Settings.DESCRIPTION));
+                    content_to.label(content.getString(Settings.LABEL));
+                    //TODO ver como as tags estão sendo extraidas
+                    content_to.tag_list(content.getString(Settings.TAGS));
+                    content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)),
+                            Double.parseDouble(content.getString(Settings.LONGITUDE)));
 
                 }catch (JSONException e){
                     Log.e("Exception", e.getMessage());
@@ -92,9 +92,16 @@ public class SingleContentActivity extends Activity {
         protected void onPostExecute(Content content) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            //Update content
+
+
             TextView description = (TextView) findViewById(R.id.description);
             description.setText(content.description());
+            TextView label = (TextView) findViewById(R.id.label);
+            label.setText(content.label());
+            //TextView tags = (TextView) findViewById(R.id.tags);
+            //tags.setText(content.tag().toString());
+            TextView latlon = (TextView) findViewById(R.id.latlon);
+            latlon.setText(content.latitude()+"x"+content.longitude());
             //TODO: add other fields
 
 

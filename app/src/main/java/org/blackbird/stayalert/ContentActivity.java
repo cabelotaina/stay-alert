@@ -62,30 +62,34 @@ public class ContentActivity extends Activity {
         }
 
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        edit_longitude = location.getLongitude();
-        edit_latitude = location.getLatitude();
+        if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            edit_longitude = location.getLongitude();
+            edit_latitude = location.getLatitude();
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder = new Geocoder(this, Locale.getDefault());
 
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
+            try {
+                addresses = geocoder.getFromLocation(edit_latitude, edit_longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
 
-        try {
-            addresses = geocoder.getFromLocation(edit_latitude, edit_longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-            if (addresses == null) {
-                Log.w(STAYALERT, getString(org.blackbird.stayalert.R.string.gps_false));
-            } else {
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                TextView edit_address = (TextView) findViewById(org.blackbird.stayalert.R.id.edit_address);
-                edit_address.setText(address + ", " + city);
+                if (addresses == null) {
+                    Log.w(STAYALERT, getString(org.blackbird.stayalert.R.string.gps_false));
+                } else {
+                    String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                    String city = addresses.get(0).getLocality();
+                    TextView edit_address = (TextView) findViewById(org.blackbird.stayalert.R.id.edit_address);
+                    edit_address.setText(address + ", " + city);
+                }
+            } catch (Exception e) {
+                Log.e(STAYALERT, "exception: " + e.getMessage());
             }
-        } catch (Exception e) {
-            Log.e(STAYALERT, "exception: " + e.getMessage());
         }
-
-
+        else{
+            TextView label_address = (TextView) findViewById(org.blackbird.stayalert.R.id.label_address);
+            String aux = getResources().getString(R.string.dont_have_gps);
+            label_address.setText(aux);
+        }
     }
 
     @Override
@@ -130,7 +134,7 @@ public class ContentActivity extends Activity {
             content.label("issue");
         }
 
-        content.lat_lon(edit_latitude, edit_longitude);
+        content.latlon(edit_latitude, edit_longitude);
         content.user_id(1);
         content.tag_list(_tags);
 
