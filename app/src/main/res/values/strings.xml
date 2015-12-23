@@ -6,6 +6,21 @@
     <string name="text_problem_intro">Adicionar Reclamação</string>
 
     <string name="add_problem">Adicionar Reclamação</string>
+    <string name="phone_number">Celular...</string>
+    <string name="name">Nome...</string>
+    <string name="rg">RG...</string>
+    <string name="cpf">CPF...</string>
+    <string name="birth_date">Data de Nascimento...</string>
+    <string name="hint_email">Email...</string>
+    <string name="city">Cidade...</string>
+    <string name="postal_code">CEP...</string>
+    <string name="district">Bairro...</string>
+    <string name="complement">Complemento...</string>
+    <string name="house_number">Numero...</string>
+    <string name="address">Endereço...</string>
+    <string name="state">UF/Estado...</string>
+    <string name="button_user_settings">Salvar</string>
+
 
     <string name="edit_title">Título ...</string>
     <string name="edit_description">Descrição ...</string>
@@ -51,6 +66,7 @@
     <string name="error_field_required">Este campo é necessário</string>
     <string name="permission_rationale">"É necessário permitir acesso aos contatos para auto completar email."
     </string>
+    <string name="title_activity_user_settings">Minhas Configurações</string>
 
 
 </resources>

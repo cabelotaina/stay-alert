@@ -102,7 +102,8 @@ public class MainActivity extends ListActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == org.blackbird.stayalert.R.id.action_settings) {
-            return true;
+            Intent in = new Intent(MainActivity.this, UserSettingsActivity.class);
+            startActivity(in);
         }
         else if(id == R.id.action_reload){
             //reload activity for load new contents
@@ -114,9 +115,9 @@ public class MainActivity extends ListActivity {
     }
 
     public void startProblemActivity(View view){
-        Intent i = new Intent(MainActivity.this, ContentActivity.class);
-        i.putExtra("EXTRA", org.blackbird.stayalert.R.string.text_problem_intro);
-        startActivity(i);
+        Intent in = new Intent(MainActivity.this, ContentActivity.class);
+        in.putExtra("EXTRA", org.blackbird.stayalert.R.string.text_problem_intro);
+        startActivity(in);
     }
 
     public void loadCamera(View view){
