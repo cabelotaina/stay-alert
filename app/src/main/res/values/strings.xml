@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fique Ligado!</string>
+    <string name="app_name">App Reclamações da SPTrans !</string>
     <string name="hello_world">Vazio!</string>
     <string name="label_title">Título: </string>
 
@@ -22,7 +22,7 @@
 
     <string name="label_address">Endereço: </string>
     <string name="label_description">Descrição: </string>
-    <string name="label_label">Etiqueta: </string>
+    <string name="label_status">Estatus: </string>
     <string name="label_latlon">Coordenadas: </string>
 
 
@@ -42,7 +42,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Iniciar sessão ou registrar</string>
     <string name="action_sign_in_short">Iniciar sessão</string>
     <string name="error_invalid_email">O email é inválido</string>

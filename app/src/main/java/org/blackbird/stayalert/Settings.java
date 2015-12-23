@@ -7,10 +7,9 @@ public class Settings {
     }
 
     public static String DESCRIPTION = "description";
-    public static String LABEL = "label";
+    public static String STATUS = "label";
     public static String LATITUDE = "latitude";
     public static String LONGITUDE = "longitude";
-    public static String TAGS = "tags";
 
 
 

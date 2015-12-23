@@ -1,6 +1,5 @@
 package org.blackbird.stayalert;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,10 +11,21 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SingleContentActivity extends Activity {
+import android.support.v4.app.FragmentActivity;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class SingleContentActivity extends FragmentActivity {
+
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     private String url;
+
+    private Double latitude , longitude ;
 
     private Content content_to = new Content();
     //TODO: add a map (http://developer.android.com/intl/pt-br/training/maps/index.html)
@@ -26,6 +36,7 @@ public class SingleContentActivity extends Activity {
 
         Bundle extras = getIntent().getExtras();
         url = extras.getString("EXTRA_URL");
+
         new GetContent().execute();
     }
 
@@ -74,7 +85,7 @@ public class SingleContentActivity extends Activity {
                 try {
                     JSONObject content = new JSONObject(jsonStr);
                     content_to.description(content.getString(Settings.DESCRIPTION));
-                    content_to.label(content.getString(Settings.LABEL));
+                    content_to.label(content.getString(Settings.STATUS));
                     content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)),
                             Double.parseDouble(content.getString(Settings.LONGITUDE)));
 
@@ -91,19 +102,29 @@ public class SingleContentActivity extends Activity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
 
-
             TextView description = (TextView) findViewById(R.id.description);
             description.setText(content.description());
             TextView label = (TextView) findViewById(R.id.label);
             label.setText(content.label());
-            //TextView tags = (TextView) findViewById(R.id.tags);
-            //tags.setText(content.tag().toString());
-            TextView latlon = (TextView) findViewById(R.id.latlon);
-            latlon.setText(content.latitude()+"x"+content.longitude());
-            //TODO: add other fields
+            latitude =  content.latitude();
+            longitude = content.longitude();
 
-
+            if (mMap == null) {
+                // Try to obtain the map from the SupportMapFragment.
+                mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                        .getMap();
+                // Check if we were successful in obtaining the map.
+                if (mMap != null) {
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Marker"));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 12.0f));
+                }
+            }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 }
