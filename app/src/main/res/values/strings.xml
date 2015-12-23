@@ -1,45 +1,43 @@
 <resources>
-    <string name="app_name">Stay Alert</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Fique Ligado!</string>
+    <string name="hello_world">Vazio!</string>
+    <string name="label_title">Título: </string>
 
-    <string name="text_problem_intro">Add new Problem</string>
-    <string name="text_issue_intro">Add new Issue</string>
+    <string name="text_problem_intro">Adicionar Reclamação</string>
 
-    <string name="add_problem">Add Problem</string>
-    <string name="add_issue">Add Issue</string>
+    <string name="add_problem">Adicionar Reclamação</string>
 
-    <string name="edit_tag">Tags separated by comma ...</string>
-    <string name="edit_description">Description ...</string>
+    <string name="edit_title">Título ...</string>
+    <string name="edit_description">Descrição ...</string>
 
     <string name="action_settings">Settings</string>
 
-    <string name="button_send">Send</string>
-    <string name="button_images">Gallery</string>
+    <string name="button_send">Enviar</string>
+    <string name="button_images">Galeria</string>
     <string name="button_camera">Camera</string>
 
-    <string name="title_activity_main">Cockpit</string>
-    <string name="title_activity_add_content">Add+...</string>
-    <string name="title_activity_display_message">Your Post</string>
+    <string name="title_activity_main">Painel de Controle</string>
+    <string name="title_activity_add_content">Adicionar Reclamação</string>
+    <string name="title_activity_display_message">Seu conteudo:</string>
 
-    <string name="label_address">Address: </string>
-    <string name="label_description">Description: </string>
-    <string name="label_label">Label: </string>
-    <string name="label_latlon">Latitude e Longitude: </string>
-    <string name="label_tags">Tags: </string>
+    <string name="label_address">Endereço: </string>
+    <string name="label_description">Descrição: </string>
+    <string name="label_label">Etiqueta: </string>
+    <string name="label_latlon">Coordenadas: </string>
 
 
-    <string name="desc_image_problem">This is the picture of the problem</string>
-    <string name="content_list_message">List of Content</string>
+    <string name="desc_image_problem">Esta é a imagem da Reclamação</string>
+    <string name="content_list_message">Minhas reclamações</string>
 
 
     <!-- errors -->
 
-    <string name="gps_false">GPS is false because address is null</string>
-    <string name="title_activity_single_content">Content selected:</string>
+    <string name="gps_false">O GPS é falso porque o endereço esta errado!</string>
+    <string name="title_activity_single_content">Reclamação selecionada:</string>
 
-    <string name="action_reload">Reload</string>
-    <string name="dont_have_gps"> dont have GPS</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="action_reload">Recarregar</string>
+    <string name="dont_have_gps"> Você não possui GPS!</string>
+    <string name="title_activity_maps">Mapa</string>
 
 
 </resources>

@@ -9,6 +9,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/label_title"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_world"
+        android:textSize="10pt"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/label_description"/>
     <TextView
         android:id="@+id/description"
@@ -40,13 +50,10 @@
         />
 
     <TextView
-        android:text="@string/label_tags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
         android:id="@+id/tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
         android:textSize="10pt"/>
+    <!-- TODO colocar o mapa para as coodenadas aqui! -->
 </LinearLayout>

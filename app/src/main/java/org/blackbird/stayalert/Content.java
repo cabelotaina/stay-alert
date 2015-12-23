@@ -8,16 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 public class Content {
 
-    private String _description, _label, _tag_list, _picture;
+    private String _description, _label, _picture;
     private int _id;
     private Double _latitude, _longitude;
     private int _user_id;
     private String _url;
-    private ArrayList<Tag> array_tag_objects = new ArrayList<Tag>();
 
     public void id(int id) {
         _id = id;
@@ -35,14 +33,6 @@ public class Content {
         return _label;
     }
 
-    public void tag_list(String tag_list) {
-        _tag_list = tag_list;
-    }
-
-    /* public void tag_list(Tag tag){
-         array_tag_objects.add(tag);
-     }
- */
     public void latlon(Double latitude, Double longitude) {
         _latitude = latitude;
         _longitude = longitude;
@@ -72,9 +62,6 @@ public class Content {
         return _description;
     }
 
-    public String tag() {
-        return _tag_list;
-    }
     public Double latitude(){
         return _latitude;
     }
@@ -91,7 +78,6 @@ public class Content {
             header.put("latitude", _latitude);
             header.put("longitude", _longitude);
             header.put("picture", _picture);
-            header.put("tag_list", _tag_list);
             header.put("user_id", _user_id);
         } catch (JSONException e) {
             e.printStackTrace();

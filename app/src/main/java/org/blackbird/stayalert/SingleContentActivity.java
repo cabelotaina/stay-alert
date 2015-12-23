@@ -75,8 +75,6 @@ public class SingleContentActivity extends Activity {
                     JSONObject content = new JSONObject(jsonStr);
                     content_to.description(content.getString(Settings.DESCRIPTION));
                     content_to.label(content.getString(Settings.LABEL));
-                    //TODO ver como as tags estão sendo extraidas
-                    content_to.tag_list(content.getString(Settings.TAGS));
                     content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)),
                             Double.parseDouble(content.getString(Settings.LONGITUDE)));
 

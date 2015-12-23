@@ -119,14 +119,6 @@ public class MainActivity extends ListActivity {
         startActivity(i);
     }
 
-
-    public void startIssueActivity(View view){
-        Intent i = new Intent(MainActivity.this, ContentActivity.class);
-        i.putExtra("EXTRA", org.blackbird.stayalert.R.string.text_issue_intro);
-        startActivity(i);
-    }
-
-
     public void loadCamera(View view){
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

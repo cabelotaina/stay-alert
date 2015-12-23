@@ -5,7 +5,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="org.blackbird.stay_alert.MainActivity">
+    tools:context="org.blackbird.stayalert.MainActivity">
 
     <Button
         android:layout_width="fill_parent"
@@ -13,11 +13,6 @@
         android:text="@string/add_problem"
         android:onClick="startProblemActivity"/>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_issue"
-        android:onClick="startIssueActivity"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

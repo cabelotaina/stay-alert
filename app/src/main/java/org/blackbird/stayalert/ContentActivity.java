@@ -65,7 +65,6 @@ public class ContentActivity extends Activity {
         if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             edit_longitude = location.getLongitude();
-            edit_latitude = location.getLatitude();
             Geocoder geocoder;
             List<Address> addresses;
             geocoder = new Geocoder(this, Locale.getDefault());
@@ -119,9 +118,6 @@ public class ContentActivity extends Activity {
         EditText edit_description = (EditText) findViewById(org.blackbird.stayalert.R.id.edit_description);
         String description = edit_description.getText().toString();
 
-        EditText edit_tags = (EditText) findViewById(org.blackbird.stayalert.R.id.edit_tags);
-        String _tags = edit_tags.getText().toString();
-
         Content content = new Content();
         if (_captured_picture_url != null){
             content.picture(_captured_picture_url);
@@ -136,7 +132,6 @@ public class ContentActivity extends Activity {
 
         content.latlon(edit_latitude, edit_longitude);
         content.user_id(1);
-        content.tag_list(_tags);
 
         //TODO: change for ServerCaller.java
         makeRequest(Settings.url() + "contents.json", content.json());

@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
+    useLibrary  'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "org.blackbird.smartgeo"
@@ -16,7 +17,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.code.gson:gson:2.4'
-    compile 'com.google.android.gms:play-services:4.2.42'
+    compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }
