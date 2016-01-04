@@ -53,7 +53,6 @@ public class ContentActivity extends Activity {
 
         setContentView(org.blackbird.stayalert.R.layout.activity_content);
 
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             type = extras.getInt("EXTRA");
@@ -61,6 +60,7 @@ public class ContentActivity extends Activity {
             title.setText(getText(type));
         }
 
+       /* TODO enable latitude longitude
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -89,7 +89,7 @@ public class ContentActivity extends Activity {
             TextView label_address = (TextView) findViewById(org.blackbird.stayalert.R.id.label_address);
             String aux = getResources().getString(R.string.dont_have_gps);
             label_address.setText(aux);
-        }
+        }*/
     }
 
     @Override
@@ -134,10 +134,10 @@ public class ContentActivity extends Activity {
         }
 
         content.latlon(edit_latitude, edit_longitude);
-        content.user_id(1);
+        //TODO add user information to problem - content.user_id(1);
 
         //TODO: change for ServerCaller.java
-        makeRequest(Settings.url() + "contents.json", content.json());
+        makeRequest(Settings.url() + "reclamacao", content.json());
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
     }

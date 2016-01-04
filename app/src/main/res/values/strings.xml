@@ -37,7 +37,10 @@
 
     <string name="label_address">Endereço: </string>
     <string name="label_description">Descrição: </string>
-    <string name="label_status">Estatus: </string>
+    <string name="label_status">Status: </string>
+    <string name="label_in_date">Data do Envio: </string>
+    <string name="label_update_date">Atualizado em: </string>
+    <string name="label_response">Resposta: </string>
     <string name="label_latlon">Coordenadas: </string>
 
 

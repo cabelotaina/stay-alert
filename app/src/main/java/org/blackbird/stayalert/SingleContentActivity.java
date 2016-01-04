@@ -13,19 +13,13 @@ import org.json.JSONObject;
 
 import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 public class SingleContentActivity extends FragmentActivity {
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
-    private String url;
 
-    private Double latitude , longitude ;
+    private String _id;
+    //private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    //private Double latitude , longitude ;
 
     private Content content_to = new Content();
     //TODO: add a map (http://developer.android.com/intl/pt-br/training/maps/index.html)
@@ -35,7 +29,7 @@ public class SingleContentActivity extends FragmentActivity {
         setContentView(R.layout.activity_single_content);
 
         Bundle extras = getIntent().getExtras();
-        url = extras.getString("EXTRA_URL");
+        _id = extras.getString("EXTRA_ID");
 
         new GetContent().execute();
     }
@@ -73,21 +67,26 @@ public class SingleContentActivity extends FragmentActivity {
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(SingleContentActivity.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage("Carregando...");
             pDialog.setCancelable(false);
             pDialog.show();
         }
 
         protected Content doInBackground(String... arg0) {
             ServerCaller called_from_get = new ServerCaller();
-            String jsonStr = called_from_get.makeServiceCall(url,ServerCaller.GET);
+            String jsonStr = called_from_get.makeServiceCall(_id,ServerCaller.GET);
             if (jsonStr != null) {
                 try {
                     JSONObject content = new JSONObject(jsonStr);
+                    content_to.title(content.getString(Settings.TITLE));
                     content_to.description(content.getString(Settings.DESCRIPTION));
-                    content_to.label(content.getString(Settings.STATUS));
-                    content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)),
-                            Double.parseDouble(content.getString(Settings.LONGITUDE)));
+                    content_to.status(content.getString(Settings.STATUS));
+                    content_to.in_date(content.getString(Settings.IN_DATE));
+                    content_to.update_date(content.getString(Settings.UPDATE_DATE));
+                    content_to.response(content.getString(Settings.RESPONSE));
+
+                    //TODO enable latitude longitude
+                    //content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)), Double.parseDouble(content.getString(Settings.LONGITUDE)));
 
                 }catch (JSONException e){
                     Log.e("Exception", e.getMessage());
@@ -101,24 +100,38 @@ public class SingleContentActivity extends FragmentActivity {
         protected void onPostExecute(Content content) {
             if (pDialog.isShowing())
                 pDialog.dismiss();
-
+            TextView title = (TextView) findViewById(R.id.title);
+            title.setText(content.title());
             TextView description = (TextView) findViewById(R.id.description);
             description.setText(content.description());
-            TextView label = (TextView) findViewById(R.id.label);
-            label.setText(content.label());
-            latitude =  content.latitude();
-            longitude = content.longitude();
+            TextView status = (TextView) findViewById(R.id.status);
+            status.setText(content.status());
+            TextView in_date = (TextView) findViewById(R.id.in_date);
+            in_date.setText(content.in_date());
+            if (content.update_date() != null) {
+                TextView update_date = (TextView) findViewById(R.id.update_date);
+                update_date.setText(content.update_date());
+            }
+            if(content.response() != null) {
+                TextView response = (TextView) findViewById(R.id.response);
+                response.setText(content.response());
+            }
 
-            if (mMap == null) {
+
+            // latitude =  content.latitude();
+            //longitude = content.longitude();
+
+            /* TODO enable with latitude and longitude
+            if (mMap != null && latitude == null || longitude == null) {
                 // Try to obtain the map from the SupportMapFragment.
                 mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                         .getMap();
                 // Check if we were successful in obtaining the map.
-                if (mMap != null) {
+                if (mMap != null && latitude == null || longitude == null) {
                     mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("Marker"));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 12.0f));
                 }
-            }
+            }*/
         }
     }
 

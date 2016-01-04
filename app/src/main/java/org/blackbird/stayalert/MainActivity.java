@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -38,14 +37,15 @@ public class MainActivity extends ListActivity {
     //private static final int RESULT_OK= 1;
     private static final String STAYALERT = "STAYALERT";
 
-    private static String LABEL = "label";
-    private static String DESCRIPTION = "description";
-    private static String URL = "url";
+    public static String TITLE = "titulo";
+    public static String STATUS = "status";
+    public static String IN_DATE = "dataCriacao";
 
     private ArrayList<Content> contents_list;
     private ArrayList<HashMap<String, String>> content_array;
     private HashMap<String, String> content_hash_map;
     private ListView list_view;
+    private String _id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +65,11 @@ public class MainActivity extends ListActivity {
                                     int position, long id) {
                 // getting values from selected ListItem
                 //TODO: make url hidden of user
-                String url = ((TextView) view.findViewById(R.id.url))
-                        .getText().toString();
 
                 // Starting single contact activity
                 Intent in = new Intent(getApplicationContext(),
                         SingleContentActivity.class);
-                in.putExtra("EXTRA_URL", url);
+                in.putExtra("EXTRA_ID", _id);
                 startActivity(in);
 
             }
@@ -135,7 +133,7 @@ public class MainActivity extends ListActivity {
                 Environment.DIRECTORY_PICTURES), getPackageName());
         if (!directory.exists()) {
             if (!directory.mkdirs()) {
-                Log.e(STAYALERT, "Failed to create storage directory.");
+                Log.e(STAYALERT, "Falha durante a criação do diretório de armazenamento.");
                 return null;
             }
         }
@@ -174,7 +172,7 @@ public class MainActivity extends ListActivity {
             super.onPreExecute();
             // Showing progress dialog
             pDialog = new ProgressDialog(MainActivity.this);
-            pDialog.setMessage("Please wait...");
+            pDialog.setMessage("Por favor aguarde...");
             pDialog.setCancelable(false);
             pDialog.show();
         }
@@ -185,7 +183,7 @@ public class MainActivity extends ListActivity {
             ServerCaller called_from_get = new ServerCaller();
 
             // Making a request to url and getting response
-            String jsonStr = called_from_get.makeServiceCall(Settings.url()+"contents.json", ServerCaller.GET);
+            String jsonStr = called_from_get.makeServiceCall(Settings.url()+"reclamacao", ServerCaller.GET);
 
             Log.d("Response: ", "> " + jsonStr);
 
@@ -199,11 +197,13 @@ public class MainActivity extends ListActivity {
                         JSONObject content_from = contents.getJSONObject(i);
                         Content content_to = new Content();
 
+                        content_to.id(content_from.getString(Settings.ID));
+                        content_to.title(content_from.getString(Settings.TITLE));
+                        //content_to.description(content_from.getString(Settings.DESCRIPTION));
+                        content_to.label(content_from.getString(Settings.STATUS));
+                        content_to.label(content_from.getString(Settings.IN_DATE));
 
-                        content_to.description(content_from.getString(DESCRIPTION));
-                        content_to.label(content_from.getString(LABEL));
 
-                        content_to.url(content_from.getString(URL));
 
                         // adding content to contents list
                         contents_list.add(content_to);
@@ -212,9 +212,14 @@ public class MainActivity extends ListActivity {
                         content_hash_map = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
-                        content_hash_map.put(DESCRIPTION, content_to.description());
-                        content_hash_map.put(LABEL, content_to.label());
-                        content_hash_map.put(URL, content_to.url());
+                        _id = content_to.id();
+                        content_hash_map.put(Settings.TITLE, content_to.title());
+                        //content_hash_map.put(Settings.DESCRIPTION, content_to.description());
+                        content_hash_map.put(Settings.STATUS, content_to.status());
+                        content_hash_map.put(Settings.IN_DATE, content_to.in_date());
+
+                        //TODO falta colocar o local
+                        
                         // adding content_hash_map to content_hash_map list
 
                         content_array.add(content_hash_map);
@@ -224,7 +229,7 @@ public class MainActivity extends ListActivity {
                 }
             } else {
                 //TODO: how insert a Toast after the if fail?
-                Log.e("ServerCaller", "Couldn't get any data from the url");
+                Log.e("ServerCaller", "Não foi possivel obter nenhum dado da URL");
             }
 
             return null;
@@ -242,8 +247,7 @@ public class MainActivity extends ListActivity {
             // TODO: insert field picture with thumb from paperclip
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, content_array,
-                    R.layout.list_item, new String[] { DESCRIPTION, LABEL, URL }, new int[] { R.id.description, R.id.label, R.id.url });
-
+                    R.layout.list_item, new String[] { TITLE, STATUS, IN_DATE}, new int[] { R.id.title, R.id.description, R.id.status});
             setListAdapter(adapter);
         }
 
