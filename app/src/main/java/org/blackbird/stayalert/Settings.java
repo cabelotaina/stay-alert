@@ -3,7 +3,7 @@ package org.blackbird.stayalert;
 public class Settings {
 
     public static String url(){
-        return " localhost:8080/sptrans/";
+        return "http://10.0.0.10:8080/sptrans/rest/";
     }
 
     public static String ID = "id";

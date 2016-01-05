@@ -63,9 +63,10 @@ public class Content {
     public String json() {
         JSONObject header = new JSONObject();
         try {
-            header.put(Settings.TITLE, _title);
             header.put(Settings.DESCRIPTION, _description);
-            header.put(Settings.STATUS, _status);
+            header.put("local","");
+            header.put(Settings.STATUS, "enviada");
+            header.put(Settings.TITLE, _title);
             //header.put(Settings.LATITUDE, _latitude);
             //header.put(Settings.LONGITUDE, _longitude);
             //header.put(Settings.picture, _picture);

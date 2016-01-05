@@ -125,6 +125,7 @@ public class ContentActivity extends Activity {
         if (_captured_picture_url != null){
             content.picture(_captured_picture_url);
         }
+        content.title(title);
         content.description(description);
 
         if(type== org.blackbird.stayalert.R.string.text_problem_intro){

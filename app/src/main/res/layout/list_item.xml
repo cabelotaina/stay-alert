@@ -8,25 +8,31 @@
     android:paddingRight="10dp" >
 
     <!-- Name Label -->
-
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:paddingTop="6dip"
+        android:textSize="0dp"
+        android:textStyle="bold"
+        android:text="@string/hello_world"/>
     <TextView
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#43bd00"
         android:textSize="16sp"
         android:textStyle="bold"
         android:text="@string/hello_world"/>
 
     <TextView
-        android:id="@+id/status"
+        android:id="@+id/list_status"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#43bd00"
         android:textSize="10sp"
         android:textStyle="bold"
         android:text="@string/hello_world"/>
@@ -37,7 +43,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#43bd00"
         android:textSize="10sp"
         android:textStyle="bold"
         android:text="@string/hello_world"/>

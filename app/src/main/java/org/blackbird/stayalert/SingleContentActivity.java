@@ -74,16 +74,17 @@ public class SingleContentActivity extends FragmentActivity {
 
         protected Content doInBackground(String... arg0) {
             ServerCaller called_from_get = new ServerCaller();
-            String jsonStr = called_from_get.makeServiceCall(_id,ServerCaller.GET);
+            String jsonStr = called_from_get.makeServiceCall(Settings.url()+"reclamacao/"+_id,ServerCaller.GET);
             if (jsonStr != null) {
                 try {
                     JSONObject content = new JSONObject(jsonStr);
                     content_to.title(content.getString(Settings.TITLE));
                     content_to.description(content.getString(Settings.DESCRIPTION));
                     content_to.status(content.getString(Settings.STATUS));
-                    content_to.in_date(content.getString(Settings.IN_DATE));
-                    content_to.update_date(content.getString(Settings.UPDATE_DATE));
-                    content_to.response(content.getString(Settings.RESPONSE));
+                    //TODO
+                    //content_to.in_date(content.getString(Settings.IN_DATE));
+                    //content_to.update_date(content.getString(Settings.UPDATE_DATE));
+                    //content_to.response(content.getString(Settings.RESPONSE));
 
                     //TODO enable latitude longitude
                     //content_to.latlon(Double.parseDouble(content.getString(Settings.LATITUDE)), Double.parseDouble(content.getString(Settings.LONGITUDE)));
@@ -106,8 +107,10 @@ public class SingleContentActivity extends FragmentActivity {
             description.setText(content.description());
             TextView status = (TextView) findViewById(R.id.status);
             status.setText(content.status());
-            TextView in_date = (TextView) findViewById(R.id.in_date);
-            in_date.setText(content.in_date());
+            if(content.in_date() != null) {
+                TextView in_date = (TextView) findViewById(R.id.in_date);
+                in_date.setText(content.in_date());
+            }
             if (content.update_date() != null) {
                 TextView update_date = (TextView) findViewById(R.id.update_date);
                 update_date.setText(content.update_date());

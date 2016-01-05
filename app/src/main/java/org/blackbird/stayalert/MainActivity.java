@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -37,8 +38,9 @@ public class MainActivity extends ListActivity {
     //private static final int RESULT_OK= 1;
     private static final String STAYALERT = "STAYALERT";
 
+    private static String ID = "id";
     public static String TITLE = "titulo";
-    public static String STATUS = "status";
+    public static String LIST_STATUS = "status";
     public static String IN_DATE = "dataCriacao";
 
     private ArrayList<Content> contents_list;
@@ -65,7 +67,8 @@ public class MainActivity extends ListActivity {
                                     int position, long id) {
                 // getting values from selected ListItem
                 //TODO: make url hidden of user
-
+                String _id = ((TextView) view.findViewById(R.id.id))
+                        .getText().toString();
                 // Starting single contact activity
                 Intent in = new Intent(getApplicationContext(),
                         SingleContentActivity.class);
@@ -199,9 +202,9 @@ public class MainActivity extends ListActivity {
 
                         content_to.id(content_from.getString(Settings.ID));
                         content_to.title(content_from.getString(Settings.TITLE));
-                        //content_to.description(content_from.getString(Settings.DESCRIPTION));
-                        content_to.label(content_from.getString(Settings.STATUS));
-                        content_to.label(content_from.getString(Settings.IN_DATE));
+                        content_to.status(content_from.getString(Settings.STATUS));
+                        //TODO :(
+                        //content_to.in_date(content_from.getString(Settings.IN_DATE));
 
 
 
@@ -209,14 +212,13 @@ public class MainActivity extends ListActivity {
                         contents_list.add(content_to);
 
                         // tmp hashmap for single content_hash_map
-                        content_hash_map = new HashMap<String, String>();
+                        content_hash_map = new HashMap<>();
 
                         // adding each child node to HashMap key => value
-                        _id = content_to.id();
+                        content_hash_map.put(Settings.ID, content_to.id());
                         content_hash_map.put(Settings.TITLE, content_to.title());
-                        //content_hash_map.put(Settings.DESCRIPTION, content_to.description());
                         content_hash_map.put(Settings.STATUS, content_to.status());
-                        content_hash_map.put(Settings.IN_DATE, content_to.in_date());
+                        //content_hash_map.put(Settings.IN_DATE, content_to.in_date());
 
                         //TODO falta colocar o local
                         
@@ -247,7 +249,7 @@ public class MainActivity extends ListActivity {
             // TODO: insert field picture with thumb from paperclip
             ListAdapter adapter = new SimpleAdapter(
                     MainActivity.this, content_array,
-                    R.layout.list_item, new String[] { TITLE, STATUS, IN_DATE}, new int[] { R.id.title, R.id.description, R.id.status});
+                    R.layout.list_item, new String[] { ID, TITLE, LIST_STATUS, IN_DATE}, new int[] { R.id.id , R.id.title, R.id.list_status, R.id.in_date});
             setListAdapter(adapter);
         }
 
